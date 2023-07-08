@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AssetAlarmMapper">
+    
+    <resultMap type="AssetAlarm" id="AssetAlarmResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="position"    column="position"    />
+        <result property="level"    column="level"    />
+        <result property="value"    column="value"    />
+    </resultMap>
+
+    <sql id="selectAssetAlarmVo">
+        select id, type, position, level, value from asset_alarm
+    </sql>
+
+    <select id="selectAssetAlarmList" parameterType="AssetAlarm" resultMap="AssetAlarmResult">
+        <include refid="selectAssetAlarmVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="position != null  and position != ''"> and position = #{position}</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+            <if test="value != null  and value != ''"> and value = #{value}</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetAlarmById" parameterType="Long" resultMap="AssetAlarmResult">
+        <include refid="selectAssetAlarmVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAssetAlarm" parameterType="AssetAlarm" useGeneratedKeys="true" keyProperty="id">
+        insert into asset_alarm
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="position != null">position,</if>
+            <if test="level != null">level,</if>
+            <if test="value != null">value,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="position != null">#{position},</if>
+            <if test="level != null">#{level},</if>
+            <if test="value != null">#{value},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetAlarm" parameterType="AssetAlarm">
+        update asset_alarm
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="position != null">position = #{position},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="value != null">value = #{value},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetAlarmById" parameterType="Long">
+        delete from asset_alarm where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetAlarmByIds" parameterType="String">
+        delete from asset_alarm where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

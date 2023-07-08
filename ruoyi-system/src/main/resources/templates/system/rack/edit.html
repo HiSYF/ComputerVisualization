@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改【请填写功能名称】')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-rack-edit" th:object="${assetRack}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所在位置：</label>
+                <div class="col-sm-8">
+                    <input name="location" th:field="*{location}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">设备高度：</label>
+                <div class="col-sm-8">
+                    <input name="height" th:field="*{height}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">架势设备编码：</label>
+                <div class="col-sm-8">
+                    <input name="serverId" th:field="*{serverId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">机柜最大高度：</label>
+                <div class="col-sm-8">
+                    <input name="maxU" th:field="*{maxU}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">厂家：</label>
+                <div class="col-sm-8">
+                    <input name="changjia" th:field="*{changjia}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">设备数量：</label>
+                <div class="col-sm-8">
+                    <input name="devices" th:field="*{devices}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">占用空间：</label>
+                <div class="col-sm-8">
+                    <input name="rackSpace" th:field="*{rackSpace}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">机柜功耗：</label>
+                <div class="col-sm-8">
+                    <input name="consumption" th:field="*{consumption}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">主机SSID：</label>
+                <div class="col-sm-8">
+                    <input name="sn" th:field="*{sn}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">机柜编号：</label>
+                <div class="col-sm-8">
+                    <input name="rackNo" th:field="*{rackNo}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">机柜总空间：</label>
+                <div class="col-sm-8">
+                    <input name="totalSpace" th:field="*{totalSpace}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信号强度：</label>
+                <div class="col-sm-8">
+                    <input name="rackSignal" th:field="*{rackSignal}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">总输入相电压：</label>
+                <div class="col-sm-8">
+                    <input name="voltage" th:field="*{voltage}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电流：</label>
+                <div class="col-sm-8">
+                    <input name="rackCurrent" th:field="*{rackCurrent}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">功率因数：</label>
+                <div class="col-sm-8">
+                    <input name="powerFactor" th:field="*{powerFactor}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">频率：</label>
+                <div class="col-sm-8">
+                    <input name="frequency" th:field="*{frequency}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电能：</label>
+                <div class="col-sm-8">
+                    <input name="electric" th:field="*{electric}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">有功功率：</label>
+                <div class="col-sm-8">
+                    <input name="powerActive" th:field="*{powerActive}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">视在功率：</label>
+                <div class="col-sm-8">
+                    <input name="powerApparent" th:field="*{powerApparent}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负载率：</label>
+                <div class="col-sm-8">
+                    <input name="loadRate" th:field="*{loadRate}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电压电流谐波率：</label>
+                <div class="col-sm-8">
+                    <input name="harmonicRate" th:field="*{harmonicRate}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">柜内母排温度：</label>
+                <div class="col-sm-8">
+                    <input name="temperature" th:field="*{temperature}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/rack";
+        $("#form-rack-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-rack-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

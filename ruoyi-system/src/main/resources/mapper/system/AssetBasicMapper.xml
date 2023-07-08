@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AssetBasicMapper">
+    
+    <resultMap type="AssetBasic" id="AssetBasicResult">
+        <result property="id"    column="id"    />
+        <result property="itDevicesTotal"    column="it_devices_total"    />
+        <result property="racksTotal"    column="racks_total"    />
+        <result property="safeDays"    column="safe_days"    />
+    </resultMap>
+
+    <sql id="selectAssetBasicVo">
+        select id, it_devices_total, racks_total, safe_days from asset_basic
+    </sql>
+
+    <select id="selectAssetBasicList" parameterType="AssetBasic" resultMap="AssetBasicResult">
+        <include refid="selectAssetBasicVo"/>
+        <where>  
+            <if test="itDevicesTotal != null "> and it_devices_total = #{itDevicesTotal}</if>
+            <if test="racksTotal != null "> and racks_total = #{racksTotal}</if>
+            <if test="safeDays != null "> and safe_days = #{safeDays}</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetBasicById" parameterType="Long" resultMap="AssetBasicResult">
+        <include refid="selectAssetBasicVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAssetBasic" parameterType="AssetBasic" useGeneratedKeys="true" keyProperty="id">
+        insert into asset_basic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itDevicesTotal != null">it_devices_total,</if>
+            <if test="racksTotal != null">racks_total,</if>
+            <if test="safeDays != null">safe_days,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itDevicesTotal != null">#{itDevicesTotal},</if>
+            <if test="racksTotal != null">#{racksTotal},</if>
+            <if test="safeDays != null">#{safeDays},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetBasic" parameterType="AssetBasic">
+        update asset_basic
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itDevicesTotal != null">it_devices_total = #{itDevicesTotal},</if>
+            <if test="racksTotal != null">racks_total = #{racksTotal},</if>
+            <if test="safeDays != null">safe_days = #{safeDays},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetBasicById" parameterType="Long">
+        delete from asset_basic where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetBasicByIds" parameterType="String">
+        delete from asset_basic where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

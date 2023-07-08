@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AssetDeviceMapper">
+    
+    <resultMap type="AssetDevice" id="AssetDeviceResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="area"    column="area"    />
+        <result property="state"    column="state"    />
+        <result property="temperature"    column="temperature"    />
+        <result property="humidity"    column="humidity"    />
+        <result property="basic"    column="basic"    />
+        <result property="monitor"    column="monitor"    />
+    </resultMap>
+
+    <sql id="selectAssetDeviceVo">
+        select id, name, type, area, state, temperature, humidity, basic, monitor from asset_device
+    </sql>
+
+    <select id="selectAssetDeviceList" parameterType="AssetDevice" resultMap="AssetDeviceResult">
+        <include refid="selectAssetDeviceVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="area != null  and area != ''"> and area = #{area}</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+            <if test="temperature != null "> and temperature = #{temperature}</if>
+            <if test="humidity != null "> and humidity = #{humidity}</if>
+            <if test="basic != null  and basic != ''"> and basic = #{basic}</if>
+            <if test="monitor != null  and monitor != ''"> and monitor = #{monitor}</if>
+        </where>
+    </select>
+
+    <select id="selectAssetDeviceById" parameterType="Long" resultMap="AssetDeviceResult">
+        <include refid="selectAssetDeviceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAssetDevice" parameterType="AssetDevice" useGeneratedKeys="true" keyProperty="id">
+        insert into asset_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="type != null">type,</if>
+            <if test="area != null">area,</if>
+            <if test="state != null">state,</if>
+            <if test="temperature != null">temperature,</if>
+            <if test="humidity != null">humidity,</if>
+            <if test="basic != null">basic,</if>
+            <if test="monitor != null">monitor,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="type != null">#{type},</if>
+            <if test="area != null">#{area},</if>
+            <if test="state != null">#{state},</if>
+            <if test="temperature != null">#{temperature},</if>
+            <if test="humidity != null">#{humidity},</if>
+            <if test="basic != null">#{basic},</if>
+            <if test="monitor != null">#{monitor},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetDevice" parameterType="AssetDevice">
+        update asset_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="area != null">area = #{area},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="temperature != null">temperature = #{temperature},</if>
+            <if test="humidity != null">humidity = #{humidity},</if>
+            <if test="basic != null">basic = #{basic},</if>
+            <if test="monitor != null">monitor = #{monitor},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetDeviceById" parameterType="Long">
+        delete from asset_device where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetDeviceByIds" parameterType="String">
+        delete from asset_device where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增【请填写功能名称】')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-rack-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所在位置：</label>
+                <div class="col-sm-8">
+                    <input name="location" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">设备高度：</label>
+                <div class="col-sm-8">
+                    <input name="height" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">架势设备编码：</label>
+                <div class="col-sm-8">
+                    <input name="serverId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">机柜最大高度：</label>
+                <div class="col-sm-8">
+                    <input name="maxU" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">厂家：</label>
+                <div class="col-sm-8">
+                    <input name="changjia" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">设备数量：</label>
+                <div class="col-sm-8">
+                    <input name="devices" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">占用空间：</label>
+                <div class="col-sm-8">
+                    <input name="rackSpace" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">机柜功耗：</label>
+                <div class="col-sm-8">
+                    <input name="consumption" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">主机SSID：</label>
+                <div class="col-sm-8">
+                    <input name="sn" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">机柜编号：</label>
+                <div class="col-sm-8">
+                    <input name="rackNo" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">机柜总空间：</label>
+                <div class="col-sm-8">
+                    <input name="totalSpace" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信号强度：</label>
+                <div class="col-sm-8">
+                    <input name="rackSignal" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">总输入相电压：</label>
+                <div class="col-sm-8">
+                    <input name="voltage" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电流：</label>
+                <div class="col-sm-8">
+                    <input name="rackCurrent" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">功率因数：</label>
+                <div class="col-sm-8">
+                    <input name="powerFactor" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">频率：</label>
+                <div class="col-sm-8">
+                    <input name="frequency" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电能：</label>
+                <div class="col-sm-8">
+                    <input name="electric" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">有功功率：</label>
+                <div class="col-sm-8">
+                    <input name="powerActive" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">视在功率：</label>
+                <div class="col-sm-8">
+                    <input name="powerApparent" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负载率：</label>
+                <div class="col-sm-8">
+                    <input name="loadRate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电压电流谐波率：</label>
+                <div class="col-sm-8">
+                    <input name="harmonicRate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">柜内母排温度：</label>
+                <div class="col-sm-8">
+                    <input name="temperature" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/rack"
+        $("#form-rack-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-rack-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

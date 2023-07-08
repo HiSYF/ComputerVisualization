@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('【请填写功能名称】列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>所在位置：</label>
+                                <input type="text" name="location"/>
+                            </li>
+                            <li>
+                                <label>设备高度：</label>
+                                <input type="text" name="height"/>
+                            </li>
+                            <li>
+                                <label>架势设备编码：</label>
+                                <input type="text" name="serverId"/>
+                            </li>
+                            <li>
+                                <label>机柜最大高度：</label>
+                                <input type="text" name="maxU"/>
+                            </li>
+                            <li>
+                                <label>厂家：</label>
+                                <input type="text" name="changjia"/>
+                            </li>
+                            <li>
+                                <label>设备数量：</label>
+                                <input type="text" name="devices"/>
+                            </li>
+                            <li>
+                                <label>占用空间：</label>
+                                <input type="text" name="rackSpace"/>
+                            </li>
+                            <li>
+                                <label>机柜功耗：</label>
+                                <input type="text" name="consumption"/>
+                            </li>
+                            <li>
+                                <label>主机SSID：</label>
+                                <input type="text" name="sn"/>
+                            </li>
+                            <li>
+                                <label>机柜编号：</label>
+                                <input type="text" name="rackNo"/>
+                            </li>
+                            <li>
+                                <label>机柜总空间：</label>
+                                <input type="text" name="totalSpace"/>
+                            </li>
+                            <li>
+                                <label>信号强度：</label>
+                                <input type="text" name="rackSignal"/>
+                            </li>
+                            <li>
+                                <label>总输入相电压：</label>
+                                <input type="text" name="voltage"/>
+                            </li>
+                            <li>
+                                <label>电流：</label>
+                                <input type="text" name="rackCurrent"/>
+                            </li>
+                            <li>
+                                <label>功率因数：</label>
+                                <input type="text" name="powerFactor"/>
+                            </li>
+                            <li>
+                                <label>频率：</label>
+                                <input type="text" name="frequency"/>
+                            </li>
+                            <li>
+                                <label>电能：</label>
+                                <input type="text" name="electric"/>
+                            </li>
+                            <li>
+                                <label>有功功率：</label>
+                                <input type="text" name="powerActive"/>
+                            </li>
+                            <li>
+                                <label>视在功率：</label>
+                                <input type="text" name="powerApparent"/>
+                            </li>
+                            <li>
+                                <label>负载率：</label>
+                                <input type="text" name="loadRate"/>
+                            </li>
+                            <li>
+                                <label>电压电流谐波率：</label>
+                                <input type="text" name="harmonicRate"/>
+                            </li>
+                            <li>
+                                <label>柜内母排温度：</label>
+                                <input type="text" name="temperature"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:rack:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:rack:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:rack:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:rack:import">
+                    <i class="fa fa-upload"></i> 导入
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:rack:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:rack:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:rack:remove')}]];
+        var prefix = ctx + "system/rack";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                importUrl: prefix + "/importData",
+                importTemplateUrl: prefix + "/importTemplate",
+                modalName: "机柜信息",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: 'id',
+                    visible: false
+                },
+                {
+                    field: 'rackType',
+                    title: '设备类型'
+                },
+                {
+                    field: 'location',
+                    title: '所在位置'
+                },
+                {
+                    field: 'height',
+                    title: '设备高度'
+                },
+                {
+                    field: 'serverId',
+                    title: '架势设备编码'
+                },
+                {
+                    field: 'maxU',
+                    title: '机柜最大高度'
+                },
+                {
+                    field: 'changjia',
+                    title: '厂家'
+                },
+                {
+                    field: 'devices',
+                    title: '设备数量'
+                },
+                {
+                    field: 'rackSpace',
+                    title: '占用空间'
+                },
+                {
+                    field: 'consumption',
+                    title: '机柜功耗'
+                },
+                {
+                    field: 'sn',
+                    title: '主机SSID'
+                },
+                {
+                    field: 'rackNo',
+                    title: '机柜编号'
+                },
+                {
+                    field: 'totalSpace',
+                    title: '机柜总空间'
+                },
+                {
+                    field: 'hostType',
+                    title: '主机型号'
+                },
+                {
+                    field: 'rackSignal',
+                    title: '信号强度'
+                },
+                {
+                    field: 'voltage',
+                    title: '总输入相电压'
+                },
+                {
+                    field: 'rackCurrent',
+                    title: '电流'
+                },
+                {
+                    field: 'powerFactor',
+                    title: '功率因数'
+                },
+                {
+                    field: 'frequency',
+                    title: '频率'
+                },
+                {
+                    field: 'electric',
+                    title: '电能'
+                },
+                {
+                    field: 'powerActive',
+                    title: '有功功率'
+                },
+                {
+                    field: 'powerApparent',
+                    title: '视在功率'
+                },
+                {
+                    field: 'loadRate',
+                    title: '负载率'
+                },
+                {
+                    field: 'harmonicRate',
+                    title: '电压电流谐波率'
+                },
+                {
+                    field: 'temperature',
+                    title: '柜内母排温度'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+
+<script id="importTpl" type="text/template">
+    <form enctype="multipart/form-data" class="mt20 mb10">
+        <div class="col-xs-offset-1">
+            <input type="file" id="file" name="file"/>
+            <div class="mt10 pt5">
+                <input type="checkbox" id="updateSupport" name="updateSupport" title="如果登录账户已经存在，更新这条数据。"> 是否更新已经存在的用户数据
+                &nbsp;	<a onclick="$.table.importTemplate()" class="btn btn-default btn-xs"><i class="fa fa-file-excel-o"></i> 下载模板</a>
+            </div>
+            <font color="red" class="pull-left mt10">
+                提示：仅允许导入“xls”或“xlsx”格式文件！
+            </font>
+        </div>
+    </form>
+</script>
+</html>
+

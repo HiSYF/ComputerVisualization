@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AssetPueMapper">
+    
+    <resultMap type="AssetPue" id="AssetPueResult">
+        <result property="id"    column="id"    />
+        <result property="puekw"    column="puekw"    />
+        <result property="percent"    column="percent"    />
+        <result property="totalLoad"    column="total_load"    />
+        <result property="itLoad"    column="it_load"    />
+        <result property="startTime"    column="start_time"    />
+    </resultMap>
+
+    <sql id="selectAssetPueVo">
+        select id, puekw, percent, total_load, it_load, start_time from asset_pue
+    </sql>
+
+    <select id="selectAssetPueList" parameterType="AssetPue" resultMap="AssetPueResult">
+        <include refid="selectAssetPueVo"/>
+        <where>  
+            <if test="puekw != null "> and puekw = #{puekw}</if>
+            <if test="percent != null "> and percent = #{percent}</if>
+            <if test="totalLoad != null "> and total_load = #{totalLoad}</if>
+            <if test="itLoad != null "> and it_load = #{itLoad}</if>
+            <if test="startTime != null  and startTime != ''"> and start_time = #{startTime}</if>
+        </where>
+    </select>
+   <select id="selectAssetPueByTime" parameterType="AssetPue" resultMap="AssetPueResult" >
+    <include refid="selectAssetPueVo"/>
+<!--       SELECT id,puekw,percent,totalLoad,itLoad FROM `asset_pue` WHERE  start_time  BETWEEN  #{param1}  AND #{param2}  LIMIT 1-->
+        <where>
+            start_time  BETWEEN  #{param1}  AND #{param2}
+        </where>
+        LIMIT 1
+    </select>
+
+    <select id="selectAssetPueById" parameterType="Long" resultMap="AssetPueResult">
+        <include refid="selectAssetPueVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAssetPue" parameterType="AssetPue" useGeneratedKeys="true" keyProperty="id">
+        insert into asset_pue
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="puekw != null">puekw,</if>
+            <if test="percent != null">percent,</if>
+            <if test="totalLoad != null">total_load,</if>
+            <if test="itLoad != null">it_load,</if>
+            <if test="startTime != null">start_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="puekw != null">#{puekw},</if>
+            <if test="percent != null">#{percent},</if>
+            <if test="totalLoad != null">#{totalLoad},</if>
+            <if test="itLoad != null">#{itLoad},</if>
+            <if test="startTime != null">#{startTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetPue" parameterType="AssetPue">
+        update asset_pue
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="puekw != null">puekw = #{puekw},</if>
+            <if test="percent != null">percent = #{percent},</if>
+            <if test="totalLoad != null">total_load = #{totalLoad},</if>
+            <if test="itLoad != null">it_load = #{itLoad},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetPueById" parameterType="Long">
+        delete from asset_pue where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetPueByIds" parameterType="String">
+        delete from asset_pue where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
