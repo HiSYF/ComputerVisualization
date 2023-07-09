@@ -26,6 +26,9 @@ public interface AssetServerInfoMapper
      * @return 服务器基础信息集合
      */
     public List<AssetServerInfo> selectAssetServerInfoList(AssetServerInfo assetServerInfo);
+    public List<AssetServerInfo> selectAssetServerInfo(String rackId, String serverId);
+    public List<AssetServerInfo> selectAssetServerInfoListByRockId(String rackId);
+
 
     /**
      * 新增服务器基础信息

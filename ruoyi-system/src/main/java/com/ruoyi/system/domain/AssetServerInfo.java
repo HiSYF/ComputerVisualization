@@ -7,9 +7,9 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 服务器基础信息对象 asset_server_info
- * 
+ *
  * @author ruoyi
- * @date 2023-07-06
+ * @date 2023-07-09
  */
 public class AssetServerInfo extends BaseEntity
 {
@@ -17,6 +17,14 @@ public class AssetServerInfo extends BaseEntity
 
     /** id */
     private Long id;
+
+    /** 设备id */
+    @Excel(name = "设备id")
+    private String serverId;
+
+    /** 机柜id */
+    @Excel(name = "机柜id")
+    private String rackId;
 
     /** 设备名称 */
     @Excel(name = "设备名称")
@@ -70,129 +78,147 @@ public class AssetServerInfo extends BaseEntity
     @Excel(name = "联系电话")
     private String phone;
 
-    public void setId(Long id) 
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
-    public void setName(String name) 
+    public void setServerId(String serverId)
+    {
+        this.serverId = serverId;
+    }
+
+    public String getServerId()
+    {
+        return serverId;
+    }
+    public void setRackId(String rackId)
+    {
+        this.rackId = rackId;
+    }
+
+    public String getRackId()
+    {
+        return rackId;
+    }
+    public void setName(String name)
     {
         this.name = name;
     }
 
-    public String getName() 
+    public String getName()
     {
         return name;
     }
-    public void setFactory(String factory) 
+    public void setFactory(String factory)
     {
         this.factory = factory;
     }
 
-    public String getFactory() 
+    public String getFactory()
     {
         return factory;
     }
-    public void setNumber(String number) 
+    public void setNumber(String number)
     {
         this.number = number;
     }
 
-    public String getNumber() 
+    public String getNumber()
     {
         return number;
     }
-    public void setType(String type) 
+    public void setType(String type)
     {
         this.type = type;
     }
 
-    public String getType() 
+    public String getType()
     {
         return type;
     }
-    public void setState(String state) 
+    public void setState(String state)
     {
         this.state = state;
     }
 
-    public String getState() 
+    public String getState()
     {
         return state;
     }
-    public void setStart(Long start) 
+    public void setStart(Long start)
     {
         this.start = start;
     }
 
-    public Long getStart() 
+    public Long getStart()
     {
         return start;
     }
-    public void setEnd(Long end) 
+    public void setEnd(Long end)
     {
         this.end = end;
     }
 
-    public Long getEnd() 
+    public Long getEnd()
     {
         return end;
     }
-    public void setRfid(String rfid) 
+    public void setRfid(String rfid)
     {
         this.rfid = rfid;
     }
 
-    public String getRfid() 
+    public String getRfid()
     {
         return rfid;
     }
-    public void setHeight(Long height) 
+    public void setHeight(Long height)
     {
         this.height = height;
     }
 
-    public Long getHeight() 
+    public Long getHeight()
     {
         return height;
     }
-    public void setBmcip(String bmcip) 
+    public void setBmcip(String bmcip)
     {
         this.bmcip = bmcip;
     }
 
-    public String getBmcip() 
+    public String getBmcip()
     {
         return bmcip;
     }
-    public void setIp(String ip) 
+    public void setIp(String ip)
     {
         this.ip = ip;
     }
 
-    public String getIp() 
+    public String getIp()
     {
         return ip;
     }
-    public void setRecipient(String recipient) 
+    public void setRecipient(String recipient)
     {
         this.recipient = recipient;
     }
 
-    public String getRecipient() 
+    public String getRecipient()
     {
         return recipient;
     }
-    public void setPhone(String phone) 
+    public void setPhone(String phone)
     {
         this.phone = phone;
     }
 
-    public String getPhone() 
+    public String getPhone()
     {
         return phone;
     }
@@ -200,20 +226,22 @@ public class AssetServerInfo extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("name", getName())
-            .append("factory", getFactory())
-            .append("number", getNumber())
-            .append("type", getType())
-            .append("state", getState())
-            .append("start", getStart())
-            .append("end", getEnd())
-            .append("rfid", getRfid())
-            .append("height", getHeight())
-            .append("bmcip", getBmcip())
-            .append("ip", getIp())
-            .append("recipient", getRecipient())
-            .append("phone", getPhone())
-            .toString();
+                .append("id", getId())
+                .append("serverId", getServerId())
+                .append("rackId", getRackId())
+                .append("name", getName())
+                .append("factory", getFactory())
+                .append("number", getNumber())
+                .append("type", getType())
+                .append("state", getState())
+                .append("start", getStart())
+                .append("end", getEnd())
+                .append("rfid", getRfid())
+                .append("height", getHeight())
+                .append("bmcip", getBmcip())
+                .append("ip", getIp())
+                .append("recipient", getRecipient())
+                .append("phone", getPhone())
+                .toString();
     }
 }

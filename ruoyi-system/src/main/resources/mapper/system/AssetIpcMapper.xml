@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AssetIpcMapper">
+    
+    <resultMap type="AssetIpc" id="AssetIpcResult">
+        <result property="id"    column="id"    />
+        <result property="ipcId"    column="ipc_id"    />
+        <result property="ipcName"    column="ipc_name"    />
+        <result property="ipcUrl"    column="ipc_url"    />
+    </resultMap>
+
+    <sql id="selectAssetIpcVo">
+        select id, ipc_id, ipc_name, ipc_url from asset_ipc
+    </sql>
+
+    <select id="selectAssetIpcList" parameterType="AssetIpc" resultMap="AssetIpcResult">
+        <include refid="selectAssetIpcVo"/>
+        <where>  
+            <if test="ipcId != null and ipcId != ''"> and ipc_id = #{ipcId}</if>
+            <if test="ipcName != null  and ipcName != ''"> and ipc_name like concat('%', #{ipcName}, '%')</if>
+            <if test="ipcUrl != null  and ipcUrl != ''"> and ipc_url = #{ipcUrl}</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetIpcById" parameterType="Long" resultMap="AssetIpcResult">
+        <include refid="selectAssetIpcVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectAssetIpcByIpc" parameterType="String" resultMap="AssetIpcResult">
+        <include refid="selectAssetIpcVo"/>
+        where ipc_id = #{ipc}
+    </select>
+    <insert id="insertAssetIpc" parameterType="AssetIpc">
+        insert into asset_ipc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="ipcId != null">ipc_id,</if>
+            <if test="ipcName != null">ipc_name,</if>
+            <if test="ipcUrl != null">ipc_url,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="ipcId != null">#{ipcId},</if>
+            <if test="ipcName != null">#{ipcName},</if>
+            <if test="ipcUrl != null">#{ipcUrl},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetIpc" parameterType="AssetIpc">
+        update asset_ipc
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ipcId != null">ipc_id = #{ipcId},</if>
+            <if test="ipcName != null">ipc_name = #{ipcName},</if>
+            <if test="ipcUrl != null">ipc_url = #{ipcUrl},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetIpcById" parameterType="Long">
+        delete from asset_ipc where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetIpcByIds" parameterType="String">
+        delete from asset_ipc where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

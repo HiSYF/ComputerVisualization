@@ -6,41 +6,21 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 【请填写功能名称】对象 asset_rack
- * 
+ * 机柜信息对象 asset_rack
+ *
  * @author ruoyi
- * @date 2023-07-06
+ * @date 2023-07-10
  */
 public class AssetRack extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** id */
-    private Long id;
+    /** 机柜唯一编号 */
+    private String id;
 
-    /** 设备类型 */
-    @Excel(name = "设备类型")
-    private String rackType;
-
-    /** 所在位置 */
-    @Excel(name = "所在位置")
-    private String location;
-
-    /** 设备高度 */
-    @Excel(name = "设备高度")
-    private Long height;
-
-    /** 架势设备编码 */
-    @Excel(name = "架势设备编码")
-    private String serverId;
-
-    /** 机柜最大高度 */
-    @Excel(name = "机柜最大高度")
-    private String maxU;
-
-    /** 厂家 */
-    @Excel(name = "厂家")
-    private String changjia;
+    /** 机柜名称 */
+    @Excel(name = "机柜名称")
+    private String rackName;
 
     /** 设备数量 */
     @Excel(name = "设备数量")
@@ -60,7 +40,7 @@ public class AssetRack extends BaseEntity
 
     /** 机柜编号 */
     @Excel(name = "机柜编号")
-    private Long rackNo;
+    private String rackNo;
 
     /** 机柜总空间 */
     @Excel(name = "机柜总空间")
@@ -114,228 +94,183 @@ public class AssetRack extends BaseEntity
     @Excel(name = "柜内母排温度")
     private String temperature;
 
-    public void setId(Long id) 
+    public void setId(String id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public String getId()
     {
         return id;
     }
-    public void setRackType(String rackType) 
+    public void setRackName(String rackName)
     {
-        this.rackType = rackType;
+        this.rackName = rackName;
     }
 
-    public String getRackType() 
+    public String getRackName()
     {
-        return rackType;
+        return rackName;
     }
-    public void setLocation(String location) 
-    {
-        this.location = location;
-    }
-
-    public String getLocation() 
-    {
-        return location;
-    }
-    public void setHeight(Long height) 
-    {
-        this.height = height;
-    }
-
-    public Long getHeight() 
-    {
-        return height;
-    }
-    public void setServerId(String serverId) 
-    {
-        this.serverId = serverId;
-    }
-
-    public String getServerId() 
-    {
-        return serverId;
-    }
-    public void setMaxU(String maxU) 
-    {
-        this.maxU = maxU;
-    }
-
-    public String getMaxU() 
-    {
-        return maxU;
-    }
-    public void setChangjia(String changjia) 
-    {
-        this.changjia = changjia;
-    }
-
-    public String getChangjia() 
-    {
-        return changjia;
-    }
-    public void setDevices(String devices) 
+    public void setDevices(String devices)
     {
         this.devices = devices;
     }
 
-    public String getDevices() 
+    public String getDevices()
     {
         return devices;
     }
-    public void setRackSpace(String rackSpace) 
+    public void setRackSpace(String rackSpace)
     {
         this.rackSpace = rackSpace;
     }
 
-    public String getRackSpace() 
+    public String getRackSpace()
     {
         return rackSpace;
     }
-    public void setConsumption(String consumption) 
+    public void setConsumption(String consumption)
     {
         this.consumption = consumption;
     }
 
-    public String getConsumption() 
+    public String getConsumption()
     {
         return consumption;
     }
-    public void setSn(String sn) 
+    public void setSn(String sn)
     {
         this.sn = sn;
     }
 
-    public String getSn() 
+    public String getSn()
     {
         return sn;
     }
-    public void setRackNo(Long rackNo) 
+    public void setRackNo(String rackNo)
     {
         this.rackNo = rackNo;
     }
 
-    public Long getRackNo() 
+    public String getRackNo()
     {
         return rackNo;
     }
-    public void setTotalSpace(String totalSpace) 
+    public void setTotalSpace(String totalSpace)
     {
         this.totalSpace = totalSpace;
     }
 
-    public String getTotalSpace() 
+    public String getTotalSpace()
     {
         return totalSpace;
     }
-    public void setHostType(String hostType) 
+    public void setHostType(String hostType)
     {
         this.hostType = hostType;
     }
 
-    public String getHostType() 
+    public String getHostType()
     {
         return hostType;
     }
-    public void setRackSignal(String rackSignal) 
+    public void setRackSignal(String rackSignal)
     {
         this.rackSignal = rackSignal;
     }
 
-    public String getRackSignal() 
+    public String getRackSignal()
     {
         return rackSignal;
     }
-    public void setVoltage(String voltage) 
+    public void setVoltage(String voltage)
     {
         this.voltage = voltage;
     }
 
-    public String getVoltage() 
+    public String getVoltage()
     {
         return voltage;
     }
-    public void setRackCurrent(String rackCurrent) 
+    public void setRackCurrent(String rackCurrent)
     {
         this.rackCurrent = rackCurrent;
     }
 
-    public String getRackCurrent() 
+    public String getRackCurrent()
     {
         return rackCurrent;
     }
-    public void setPowerFactor(String powerFactor) 
+    public void setPowerFactor(String powerFactor)
     {
         this.powerFactor = powerFactor;
     }
 
-    public String getPowerFactor() 
+    public String getPowerFactor()
     {
         return powerFactor;
     }
-    public void setFrequency(String frequency) 
+    public void setFrequency(String frequency)
     {
         this.frequency = frequency;
     }
 
-    public String getFrequency() 
+    public String getFrequency()
     {
         return frequency;
     }
-    public void setElectric(String electric) 
+    public void setElectric(String electric)
     {
         this.electric = electric;
     }
 
-    public String getElectric() 
+    public String getElectric()
     {
         return electric;
     }
-    public void setPowerActive(String powerActive) 
+    public void setPowerActive(String powerActive)
     {
         this.powerActive = powerActive;
     }
 
-    public String getPowerActive() 
+    public String getPowerActive()
     {
         return powerActive;
     }
-    public void setPowerApparent(String powerApparent) 
+    public void setPowerApparent(String powerApparent)
     {
         this.powerApparent = powerApparent;
     }
 
-    public String getPowerApparent() 
+    public String getPowerApparent()
     {
         return powerApparent;
     }
-    public void setLoadRate(String loadRate) 
+    public void setLoadRate(String loadRate)
     {
         this.loadRate = loadRate;
     }
 
-    public String getLoadRate() 
+    public String getLoadRate()
     {
         return loadRate;
     }
-    public void setHarmonicRate(String harmonicRate) 
+    public void setHarmonicRate(String harmonicRate)
     {
         this.harmonicRate = harmonicRate;
     }
 
-    public String getHarmonicRate() 
+    public String getHarmonicRate()
     {
         return harmonicRate;
     }
-    public void setTemperature(String temperature) 
+    public void setTemperature(String temperature)
     {
         this.temperature = temperature;
     }
 
-    public String getTemperature() 
+    public String getTemperature()
     {
         return temperature;
     }
@@ -343,31 +278,26 @@ public class AssetRack extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("rackType", getRackType())
-            .append("location", getLocation())
-            .append("height", getHeight())
-            .append("serverId", getServerId())
-            .append("maxU", getMaxU())
-            .append("changjia", getChangjia())
-            .append("devices", getDevices())
-            .append("rackSpace", getRackSpace())
-            .append("consumption", getConsumption())
-            .append("sn", getSn())
-            .append("rackNo", getRackNo())
-            .append("totalSpace", getTotalSpace())
-            .append("hostType", getHostType())
-            .append("rackSignal", getRackSignal())
-            .append("voltage", getVoltage())
-            .append("rackCurrent", getRackCurrent())
-            .append("powerFactor", getPowerFactor())
-            .append("frequency", getFrequency())
-            .append("electric", getElectric())
-            .append("powerActive", getPowerActive())
-            .append("powerApparent", getPowerApparent())
-            .append("loadRate", getLoadRate())
-            .append("harmonicRate", getHarmonicRate())
-            .append("temperature", getTemperature())
-            .toString();
+                .append("id", getId())
+                .append("rackName", getRackName())
+                .append("devices", getDevices())
+                .append("rackSpace", getRackSpace())
+                .append("consumption", getConsumption())
+                .append("sn", getSn())
+                .append("rackNo", getRackNo())
+                .append("totalSpace", getTotalSpace())
+                .append("hostType", getHostType())
+                .append("rackSignal", getRackSignal())
+                .append("voltage", getVoltage())
+                .append("rackCurrent", getRackCurrent())
+                .append("powerFactor", getPowerFactor())
+                .append("frequency", getFrequency())
+                .append("electric", getElectric())
+                .append("powerActive", getPowerActive())
+                .append("powerApparent", getPowerApparent())
+                .append("loadRate", getLoadRate())
+                .append("harmonicRate", getHarmonicRate())
+                .append("temperature", getTemperature())
+                .toString();
     }
 }

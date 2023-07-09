@@ -1,6 +1,8 @@
 package com.ruoyi.system.controller;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.AssetRack;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * pueController
@@ -54,6 +57,27 @@ public class AssetPueController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 按模板导入
+     */
+    @PostMapping("/importData")
+    @RequiresPermissions("system:pue:import")
+    @ResponseBody
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception     {
+        ExcelUtil<AssetPue> util = new ExcelUtil<AssetPue>(AssetPue.class);
+        List<AssetPue> userList = util.importExcel(file.getInputStream());
+        for (int i=0;i<userList.size();i++){
+            AssetPue assetPue=userList.get(i);             assetPueService.insertAssetPue(assetPue);
+        }
+        return AjaxResult.success();
+    }
+    /*     下载模板     * */
+    @GetMapping("/importTemplate")
+    @ResponseBody
+    public AjaxResult   importTemplate(){
+        ExcelUtil<AssetPue> util=new ExcelUtil<AssetPue>(AssetPue.class);
+        return util.importTemplateExcel("pue信息");
+    }
     /**
      * 导出pue列表
      */

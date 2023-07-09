@@ -18,6 +18,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 【请填写功能名称】Controller
@@ -123,5 +124,26 @@ public class AssetRackController extends BaseController
     public AjaxResult remove(String ids)
     {
         return toAjax(assetRackService.deleteAssetRackByIds(ids));
+    }
+    /**
+     * 按模板导入
+     */
+    @PostMapping("/importData")
+    @RequiresPermissions("system:rack:import")
+    @ResponseBody
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception     {
+        ExcelUtil<AssetRack> util = new ExcelUtil<AssetRack>(AssetRack.class);
+        List<AssetRack> userList = util.importExcel(file.getInputStream());
+        for (int i=0;i<userList.size();i++){
+            AssetRack assetRack=userList.get(i);             assetRackService.insertAssetRack(assetRack);
+        }
+        return AjaxResult.success();
+    }
+    /*     下载模板     * */
+    @GetMapping("/importTemplate")
+    @ResponseBody
+    public AjaxResult   importTemplate(){
+        ExcelUtil<AssetRack> util=new ExcelUtil<AssetRack>(AssetRack.class);
+        return util.importTemplateExcel("机柜信息");
     }
 }

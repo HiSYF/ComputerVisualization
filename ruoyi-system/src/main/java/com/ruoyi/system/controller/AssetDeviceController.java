@@ -1,6 +1,8 @@
 package com.ruoyi.system.controller;
 
 import java.util.List;
+
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 【设备信息】Controller
@@ -54,6 +57,27 @@ public class AssetDeviceController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 按模板导入
+     */
+    @PostMapping("/importData")
+    @RequiresPermissions("system:device:import")
+    @ResponseBody
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception     {
+        ExcelUtil<AssetDevice> util = new ExcelUtil<AssetDevice>(AssetDevice.class);
+        List<AssetDevice> userList = util.importExcel(file.getInputStream());
+        for (int i=0;i<userList.size();i++){
+            AssetDevice assetDevice=userList.get(i);             assetDeviceService.insertAssetDevice(assetDevice);
+        }
+        return AjaxResult.success();
+    }
+    /*     下载模板     * */
+    @GetMapping("/importTemplate")
+    @ResponseBody
+    public AjaxResult   importTemplate(){
+        ExcelUtil<AssetDevice> util=new ExcelUtil<AssetDevice>(AssetDevice.class);
+        return util.importTemplateExcel("设备信息");
+    }
     /**
      * 导出【设备信息】列表
      */

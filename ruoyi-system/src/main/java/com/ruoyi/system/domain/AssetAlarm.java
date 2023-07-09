@@ -19,7 +19,7 @@ public class AssetAlarm extends BaseEntity
     private Long id;
 
     /** 告警类型（温湿度、烟感） */
-    @Excel(name = "告警类型", readConverterExp = "温=湿度、烟感")
+    @Excel(name = "告警类型")
     private String type;
 
     /** 告警位置 */

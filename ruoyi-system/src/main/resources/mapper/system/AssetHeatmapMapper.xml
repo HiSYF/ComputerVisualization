@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AssetHeatmapMapper">
+    
+    <resultMap type="AssetHeatmap" id="AssetHeatmapResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="x"    column="x"    />
+        <result property="y"    column="y"    />
+    </resultMap>
+
+    <sql id="selectAssetHeatmapVo">
+        select id, code, x, y from asset_heatmap
+    </sql>
+
+    <select id="selectAssetHeatmapList" parameterType="AssetHeatmap" resultMap="AssetHeatmapResult">
+        <include refid="selectAssetHeatmapVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="x != null  and x != ''"> and x = #{x}</if>
+            <if test="y != null  and y != ''"> and y = #{y}</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetHeatmapById" parameterType="Long" resultMap="AssetHeatmapResult">
+        <include refid="selectAssetHeatmapVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectAssetHeatmap" parameterType="Long" resultMap="AssetHeatmapResult">
+        <include refid="selectAssetHeatmapVo"/>
+        where code = #{code}
+    </select>
+        
+    <insert id="insertAssetHeatmap" parameterType="AssetHeatmap" useGeneratedKeys="true" keyProperty="id">
+        insert into asset_heatmap
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">code,</if>
+            <if test="x != null">x,</if>
+            <if test="y != null">y,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="x != null">#{x},</if>
+            <if test="y != null">#{y},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetHeatmap" parameterType="AssetHeatmap">
+        update asset_heatmap
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="x != null">x = #{x},</if>
+            <if test="y != null">y = #{y},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetHeatmapById" parameterType="Long">
+        delete from asset_heatmap where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetHeatmapByIds" parameterType="String">
+        delete from asset_heatmap where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

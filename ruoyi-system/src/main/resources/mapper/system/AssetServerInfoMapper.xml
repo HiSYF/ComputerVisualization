@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.AssetServerInfoMapper">
-    
+
     <resultMap type="AssetServerInfo" id="AssetServerInfoResult">
         <result property="id"    column="id"    />
+        <result property="serverId"    column="server_id"    />
+        <result property="rackId"    column="rack_id"    />
         <result property="name"    column="name"    />
         <result property="factory"    column="factory"    />
         <result property="number"    column="number"    />
@@ -22,12 +24,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectAssetServerInfoVo">
-        select id, name, factory, number, type, state, start, end, rfid, height, bmcip, ip, recipient, phone from asset_server_info
+        select id, server_id, rack_id, name, factory, number, type, state, start, end, rfid, height, bmcip, ip, recipient, phone from asset_server_info
     </sql>
 
     <select id="selectAssetServerInfoList" parameterType="AssetServerInfo" resultMap="AssetServerInfoResult">
         <include refid="selectAssetServerInfoVo"/>
-        <where>  
+        where 1=1
+            <if test="serverId != null  and serverId != ''"> and server_id = #{serverId}</if>
+            <if test="rackId != null  and rackId != ''"> and rack_id = #{rackId}</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="factory != null  and factory != ''"> and factory = #{factory}</if>
             <if test="number != null  and number != ''"> and number = #{number}</if>
@@ -41,17 +45,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ip != null  and ip != ''"> and ip = #{ip}</if>
             <if test="recipient != null  and recipient != ''"> and recipient = #{recipient}</if>
             <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
-        </where>
+
     </select>
-    
+
+    <select id="selectAssetServerInfo"  resultMap="AssetServerInfoResult">
+        <include refid="selectAssetServerInfoVo"/>
+        where rack_id = #{param1}  AND server_id = #{param2}
+    </select>
+    <select id="selectAssetServerInfoListByRockId"  resultMap="AssetServerInfoResult">
+        <include refid="selectAssetServerInfoVo"/>
+        where rack_id = #{param1}
+    </select>
+
     <select id="selectAssetServerInfoById" parameterType="Long" resultMap="AssetServerInfoResult">
         <include refid="selectAssetServerInfoVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertAssetServerInfo" parameterType="AssetServerInfo" useGeneratedKeys="true" keyProperty="id">
         insert into asset_server_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serverId != null">server_id,</if>
+            <if test="rackId != null">rack_id,</if>
             <if test="name != null">name,</if>
             <if test="factory != null">factory,</if>
             <if test="number != null">number,</if>
@@ -65,8 +80,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ip != null">ip,</if>
             <if test="recipient != null">recipient,</if>
             <if test="phone != null">phone,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serverId != null">#{serverId},</if>
+            <if test="rackId != null">#{rackId},</if>
             <if test="name != null">#{name},</if>
             <if test="factory != null">#{factory},</if>
             <if test="number != null">#{number},</if>
@@ -80,12 +97,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ip != null">#{ip},</if>
             <if test="recipient != null">#{recipient},</if>
             <if test="phone != null">#{phone},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateAssetServerInfo" parameterType="AssetServerInfo">
         update asset_server_info
         <trim prefix="SET" suffixOverrides=",">
+            <if test="serverId != null">server_id = #{serverId},</if>
+            <if test="rackId != null">rack_id = #{rackId},</if>
             <if test="name != null">name = #{name},</if>
             <if test="factory != null">factory = #{factory},</if>
             <if test="number != null">number = #{number},</if>
@@ -108,7 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteAssetServerInfoByIds" parameterType="String">
-        delete from asset_server_info where id in 
+        delete from asset_server_info where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

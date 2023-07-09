@@ -1,164 +1,93 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('【请填写功能名称】列表')" />
+    <th:block th:include="include :: header('基础信息列表')" />
 </head>
 <body class="gray-bg">
-     <div class="container-div">
-        <div class="row">
-            <div class="col-sm-12 search-collapse">
-                <form id="formId">
-                    <div class="select-list">
-                        <ul>
-                            <li>
-                                <label>设备名称：</label>
-                                <input type="text" name="name"/>
-                            </li>
-                            <li>
-                                <label>设备厂商：</label>
-                                <input type="text" name="factory"/>
-                            </li>
-                            <li>
-                                <label>序列号：</label>
-                                <input type="text" name="number"/>
-                            </li>
-                            <li>
-                                <label>设备状态：</label>
-                                <input type="text" name="state"/>
-                            </li>
-                            <li>
-                                <label>起始U位：</label>
-                                <input type="text" name="start"/>
-                            </li>
-                            <li>
-                                <label>结束U位：</label>
-                                <input type="text" name="end"/>
-                            </li>
-                            <li>
-                                <label>RFID：</label>
-                                <input type="text" name="rfid"/>
-                            </li>
-                            <li>
-                                <label>设备高度：</label>
-                                <input type="text" name="height"/>
-                            </li>
-                            <li>
-                                <label>BMC IP：</label>
-                                <input type="text" name="bmcip"/>
-                            </li>
-                            <li>
-                                <label>业务IP：</label>
-                                <input type="text" name="ip"/>
-                            </li>
-                            <li>
-                                <label>领用人：</label>
-                                <input type="text" name="recipient"/>
-                            </li>
-                            <li>
-                                <label>联系电话：</label>
-                                <input type="text" name="phone"/>
-                            </li>
-                            <li>
-                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
-                            </li>
-                        </ul>
-                    </div>
-                </form>
-            </div>
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <label>IT 设备总数：</label>
+                            <input type="text" name="itDevicesTotal"/>
+                        </li>
+                        <li>
+                            <label>机架总数：</label>
+                            <input type="text" name="racksTotal"/>
+                        </li>
+                        <li>
+                            <label>安全运营天数：</label>
+                            <input type="text" name="safeDays"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
 
-            <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:basic:add">
-                    <i class="fa fa-plus"></i> 添加
-                </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:basic:edit">
-                    <i class="fa fa-edit"></i> 修改
-                </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:basic:remove">
-                    <i class="fa fa-remove"></i> 删除
-                </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:basic:export">
-                    <i class="fa fa-download"></i> 导出
-                </a>
-            </div>
-            <div class="col-sm-12 select-table table-striped">
-                <table id="bootstrap-table"></table>
-            </div>
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:basic:add">
+                <i class="fa fa-plus"></i> 添加
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:basic:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:basic:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:rack:import">
+                <i class="fa fa-upload"></i> 导入
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:basic:export">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
         </div>
     </div>
-    <th:block th:include="include :: footer" />
-    <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:basic:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:basic:remove')}]];
-        var prefix = ctx + "system/basic";
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('system:basic:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('system:basic:remove')}]];
+    var prefix = ctx + "system/basic";
 
-        $(function() {
-            var options = {
-                url: prefix + "/list",
-                createUrl: prefix + "/add",
-                updateUrl: prefix + "/edit/{id}",
-                removeUrl: prefix + "/remove",
-                exportUrl: prefix + "/export",
-                modalName: "【请填写功能名称】",
-                columns: [{
-                    checkbox: true
-                },
+    $(function() {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            importUrl: prefix + "/importData",
+            importTemplateUrl: prefix + "/importTemplate",
+            exportUrl: prefix + "/export",
+            modalName: "基础信息",
+            columns: [{
+                checkbox: true
+            },
                 {
                     field: 'id',
                     title: 'id',
                     visible: false
                 },
                 {
-                    field: 'name',
-                    title: '设备名称'
+                    field: 'itDevicesTotal',
+                    title: 'IT 设备总数'
                 },
                 {
-                    field: 'factory',
-                    title: '设备厂商'
+                    field: 'racksTotal',
+                    title: '机架总数'
                 },
                 {
-                    field: 'number',
-                    title: '序列号'
-                },
-                {
-                    field: 'type',
-                    title: '设备型号'
-                },
-                {
-                    field: 'state',
-                    title: '设备状态'
-                },
-                {
-                    field: 'start',
-                    title: '起始U位'
-                },
-                {
-                    field: 'end',
-                    title: '结束U位'
-                },
-                {
-                    field: 'rfid',
-                    title: 'RFID'
-                },
-                {
-                    field: 'height',
-                    title: '设备高度'
-                },
-                {
-                    field: 'bmcip',
-                    title: 'BMC IP'
-                },
-                {
-                    field: 'ip',
-                    title: '业务IP'
-                },
-                {
-                    field: 'recipient',
-                    title: '领用人'
-                },
-                {
-                    field: 'phone',
-                    title: '联系电话'
+                    field: 'safeDays',
+                    title: '安全运营天数'
                 },
                 {
                     title: '操作',
@@ -170,9 +99,23 @@
                         return actions.join('');
                     }
                 }]
-            };
-            $.table.init(options);
-        });
-    </script>
+        };
+        $.table.init(options);
+    });
+</script>
 </body>
+<script id="importTpl" type="text/template">
+    <form enctype="multipart/form-data" class="mt20 mb10">
+        <div class="col-xs-offset-1">
+            <input type="file" id="file" name="file"/>
+            <div class="mt10 pt5">
+                <input type="checkbox" id="updateSupport" name="updateSupport" title="如果登录账户已经存在，更新这条数据。"> 是否更新已经存在的用户数据
+                &nbsp;	<a onclick="$.table.importTemplate()" class="btn btn-default btn-xs"><i class="fa fa-file-excel-o"></i> 下载模板</a>
+            </div>
+            <font color="red" class="pull-left mt10">
+                提示：仅允许导入“xls”或“xlsx”格式文件！
+            </font>
+        </div>
+    </form>
+</script>
 </html>

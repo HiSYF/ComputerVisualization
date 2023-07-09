@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.AssetRackMapper">
-    
+
     <resultMap type="AssetRack" id="AssetRackResult">
         <result property="id"    column="id"    />
-        <result property="rackType"    column="rack_type"    />
-        <result property="location"    column="location"    />
-        <result property="height"    column="height"    />
-        <result property="serverId"    column="serverId"    />
-        <result property="maxU"    column="maxU"    />
-        <result property="changjia"    column="changjia"    />
+        <result property="rackName"    column="rack_name"    />
         <result property="devices"    column="devices"    />
         <result property="rackSpace"    column="rack_space"    />
         <result property="consumption"    column="consumption"    />
@@ -33,23 +28,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectAssetRackVo">
-        select id, rack_type, location, height, serverId, maxU, changjia, devices, rack_space, consumption, sn, rack_no, total_space, host_type, rack_signal, voltage, rack_current, power_factor, frequency, electric, power_active, power_apparent, load_rate, harmonic_rate, temperature from asset_rack
+        select id, rack_name, devices, rack_space, consumption, sn, rack_no, total_space, host_type, rack_signal, voltage, rack_current, power_factor, frequency, electric, power_active, power_apparent, load_rate, harmonic_rate, temperature from asset_rack
     </sql>
 
     <select id="selectAssetRackList" parameterType="AssetRack" resultMap="AssetRackResult">
         <include refid="selectAssetRackVo"/>
-        <where>  
-            <if test="rackType != null  and rackType != ''"> and rack_type = #{rackType}</if>
-            <if test="location != null  and location != ''"> and location = #{location}</if>
-            <if test="height != null "> and height = #{height}</if>
-            <if test="serverId != null  and serverId != ''"> and serverId = #{serverId}</if>
-            <if test="maxU != null  and maxU != ''"> and maxU = #{maxU}</if>
-            <if test="changjia != null  and changjia != ''"> and changjia = #{changjia}</if>
+        <where>
+            <if test="rackName != null  and rackName != ''"> and rack_name like concat('%', #{rackName}, '%')</if>
             <if test="devices != null  and devices != ''"> and devices = #{devices}</if>
             <if test="rackSpace != null  and rackSpace != ''"> and rack_space = #{rackSpace}</if>
             <if test="consumption != null  and consumption != ''"> and consumption = #{consumption}</if>
             <if test="sn != null  and sn != ''"> and sn = #{sn}</if>
-            <if test="rackNo != null "> and rack_no = #{rackNo}</if>
+            <if test="rackNo != null  and rackNo != ''"> and rack_no = #{rackNo}</if>
             <if test="totalSpace != null  and totalSpace != ''"> and total_space = #{totalSpace}</if>
             <if test="hostType != null  and hostType != ''"> and host_type = #{hostType}</if>
             <if test="rackSignal != null  and rackSignal != ''"> and rack_signal = #{rackSignal}</if>
@@ -65,21 +55,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="temperature != null  and temperature != ''"> and temperature = #{temperature}</if>
         </where>
     </select>
-    
-    <select id="selectAssetRackById" parameterType="Long" resultMap="AssetRackResult">
+
+    <select id="selectAssetRackById" parameterType="String" resultMap="AssetRackResult">
         <include refid="selectAssetRackVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertAssetRack" parameterType="AssetRack" useGeneratedKeys="true" keyProperty="id">
         insert into asset_rack
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="rackType != null">rack_type,</if>
-            <if test="location != null">location,</if>
-            <if test="height != null">height,</if>
-            <if test="serverId != null">serverId,</if>
-            <if test="maxU != null">maxU,</if>
-            <if test="changjia != null">changjia,</if>
+            <if test="rackName != null">rack_name,</if>
             <if test="devices != null">devices,</if>
             <if test="rackSpace != null">rack_space,</if>
             <if test="consumption != null">consumption,</if>
@@ -98,14 +83,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="loadRate != null">load_rate,</if>
             <if test="harmonicRate != null">harmonic_rate,</if>
             <if test="temperature != null">temperature,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="rackType != null">#{rackType},</if>
-            <if test="location != null">#{location},</if>
-            <if test="height != null">#{height},</if>
-            <if test="serverId != null">#{serverId},</if>
-            <if test="maxU != null">#{maxU},</if>
-            <if test="changjia != null">#{changjia},</if>
+            <if test="rackName != null">#{rackName},</if>
             <if test="devices != null">#{devices},</if>
             <if test="rackSpace != null">#{rackSpace},</if>
             <if test="consumption != null">#{consumption},</if>
@@ -124,18 +104,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="loadRate != null">#{loadRate},</if>
             <if test="harmonicRate != null">#{harmonicRate},</if>
             <if test="temperature != null">#{temperature},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateAssetRack" parameterType="AssetRack">
         update asset_rack
         <trim prefix="SET" suffixOverrides=",">
-            <if test="rackType != null">rack_type = #{rackType},</if>
-            <if test="location != null">location = #{location},</if>
-            <if test="height != null">height = #{height},</if>
-            <if test="serverId != null">serverId = #{serverId},</if>
-            <if test="maxU != null">maxU = #{maxU},</if>
-            <if test="changjia != null">changjia = #{changjia},</if>
+            <if test="rackName != null">rack_name = #{rackName},</if>
             <if test="devices != null">devices = #{devices},</if>
             <if test="rackSpace != null">rack_space = #{rackSpace},</if>
             <if test="consumption != null">consumption = #{consumption},</if>
@@ -158,15 +133,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteAssetRackById" parameterType="Long">
+    <delete id="deleteAssetRackById" parameterType="String">
         delete from asset_rack where id = #{id}
     </delete>
 
     <delete id="deleteAssetRackByIds" parameterType="String">
-        delete from asset_rack where id in 
+        delete from asset_rack where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
 
+    <select id="selectAssetRackListByRackNo" parameterType="String" resultMap="AssetRackResult">
+        <include refid="selectAssetRackVo"/>
+        where rack_no = #{rackNo}
+    </select>
 </mapper>

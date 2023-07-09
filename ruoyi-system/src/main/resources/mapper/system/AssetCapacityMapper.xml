@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AssetCapacityMapper">
+    
+    <resultMap type="AssetCapacity" id="AssetCapacityResult">
+        <result property="id"    column="id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="capacityValue"    column="capacity_value"    />
+    </resultMap>
+
+    <sql id="selectAssetCapacityVo">
+        select id, device_id, capacity_value from asset_capacity
+    </sql>
+
+    <select id="selectAssetCapacityList" parameterType="AssetCapacity" resultMap="AssetCapacityResult">
+        <include refid="selectAssetCapacityVo"/>
+        <where>  
+            <if test="deviceId != null  and deviceId != ''"> and device_id = #{deviceId}</if>
+            <if test="capacityValue != null "> and capacity_value = #{capacityValue}</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetCapacityById" parameterType="Long" resultMap="AssetCapacityResult">
+        <include refid="selectAssetCapacityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAssetCapacity" parameterType="AssetCapacity" useGeneratedKeys="true" keyProperty="id">
+        insert into asset_capacity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">device_id,</if>
+            <if test="capacityValue != null">capacity_value,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="capacityValue != null">#{capacityValue},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetCapacity" parameterType="AssetCapacity">
+        update asset_capacity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="capacityValue != null">capacity_value = #{capacityValue},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetCapacityById" parameterType="Long">
+        delete from asset_capacity where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetCapacityByIds" parameterType="String">
+        delete from asset_capacity where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

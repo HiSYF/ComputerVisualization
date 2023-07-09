@@ -15,7 +15,7 @@ import com.ruoyi.common.core.text.Convert;
  * @date 2023-07-06
  */
 @Service
-public class AssetServerInfoServiceImpl implements IAssetServerInfoService 
+public class AssetServerInfoServiceImpl implements IAssetServerInfoService
 {
     @Autowired
     private AssetServerInfoMapper assetServerInfoMapper;
@@ -44,6 +44,15 @@ public class AssetServerInfoServiceImpl implements IAssetServerInfoService
         return assetServerInfoMapper.selectAssetServerInfoList(assetServerInfo);
     }
 
+    @Override
+    public List<AssetServerInfo> selectAssetServerInfo(String rackId, String serverId) {
+        return assetServerInfoMapper.selectAssetServerInfo(rackId,serverId);
+    }
+
+    @Override
+    public List<AssetServerInfo> selectAssetServerInfoListByRockId(String rackId) {
+        return assetServerInfoMapper.selectAssetServerInfoListByRockId(rackId);
+    }
     /**
      * 新增服务器基础信息
      * 

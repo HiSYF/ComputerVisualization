@@ -18,6 +18,7 @@ public interface IAssetRackService
      * @return 【请填写功能名称】
      */
     public AssetRack selectAssetRackById(Long id);
+    public AssetRack selectAssetRackByRackNo(String RackNo);
 
     /**
      * 查询【请填写功能名称】列表

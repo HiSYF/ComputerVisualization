@@ -32,6 +32,11 @@ public class AssetRackServiceImpl implements IAssetRackService
         return assetRackMapper.selectAssetRackById(id);
     }
 
+    @Override
+    public AssetRack selectAssetRackByRackNo(String RackNo) {
+        return assetRackMapper.selectAssetRackByRackNo(RackNo);
+    }
+
     /**
      * 查询【请填写功能名称】列表
      * 

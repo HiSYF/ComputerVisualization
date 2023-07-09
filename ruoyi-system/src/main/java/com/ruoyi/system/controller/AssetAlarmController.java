@@ -1,6 +1,8 @@
 package com.ruoyi.system.controller;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.AssetRack;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 【告警】Controller
@@ -54,6 +57,27 @@ public class AssetAlarmController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 按模板导入
+     */
+    @PostMapping("/importData")
+    @RequiresPermissions("system:alarm:import")
+    @ResponseBody
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception     {
+        ExcelUtil<AssetAlarm> util = new ExcelUtil<AssetAlarm>(AssetAlarm.class);
+        List<AssetAlarm> userList = util.importExcel(file.getInputStream());
+        for (int i=0;i<userList.size();i++){
+            AssetAlarm assetAlarm=userList.get(i);             assetAlarmService.insertAssetAlarm(assetAlarm);
+        }
+        return AjaxResult.success();
+    }
+    /*     下载模板     * */
+    @GetMapping("/importTemplate")
+    @ResponseBody
+    public AjaxResult   importTemplate(){
+        ExcelUtil<AssetAlarm> util=new ExcelUtil<AssetAlarm>(AssetAlarm.class);
+        return util.importTemplateExcel("告警");
+    }
     /**
      * 导出【告警】列表
      */

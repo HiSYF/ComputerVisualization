@@ -4,6 +4,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.RetInfo;
 import com.ruoyi.system.domain.*;
+import com.ruoyi.system.mapper.AssetServerInfoMapper;
 import com.ruoyi.system.service.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.poi.ss.formula.functions.T;
@@ -30,6 +31,12 @@ public class AssetController extends BaseController {
     private IAssetRackService assetRackService;
     @Autowired
     private IAssetServerInfoService assetServerInfoService;
+    @Autowired
+    private IAssetCapacityService assetCapacityService;
+    @Autowired
+    private IAssetHeatmapService assetHeatmapService;
+    @Autowired
+    private IAssetIpcService assetIpcService;
 
     //  接口说明：返回机房基础数据情况
     @GetMapping("basic/data")
@@ -132,46 +139,61 @@ public class AssetController extends BaseController {
     //  接口说明：返回机柜内的设备及其布局信息
     @GetMapping("device/getRackDeviceById")
     @ResponseBody
-    private RetInfo getRackDeviceById(@RequestParam(name = "id") Long id){
-
-        AssetRack rack = assetRackService.selectAssetRackById(id);
+    private RetInfo getRackDeviceById(@RequestParam(name = "id") String id){
+        List<AssetServerInfo> rack = assetServerInfoService.selectAssetServerInfoListByRockId(id);
         return RetInfo.success(rack);
     }
 
     //  接口说明：返回监控可视化信息
+    //  接口说明：监控可视化
     @GetMapping("monitoring/url")
     @ResponseBody
-    private RetInfo monitoring(AssetAlarm assetAlarm){
+    private RetInfo monitoring(@RequestParam(name = "id") String ipc){
 
-        List<AssetAlarm> list = assetAlarmService.selectAssetAlarmList(assetAlarm);
-        return RetInfo.success(list);
+        AssetIpc assetIpc= assetIpcService.selectAssetIpcByIpc(ipc);
+        return RetInfo.success(assetIpc);
     }
 
-    //  接口说明：返回监控可视化信息
+    //  接口说明：返回机柜信息
     @GetMapping("device/cabinet")
     @ResponseBody
-    private RetInfo deviceCabinet(@RequestParam(name = "id") Long id){
+    private RetInfo deviceCabinet(@RequestParam(name = "id") String id){
 
-        AssetAlarm ipc = assetAlarmService.selectAssetAlarmById(id);
-        return RetInfo.success(ipc);
+        AssetRack assetRack = assetRackService.selectAssetRackByRackNo(id);
+        return RetInfo.success(assetRack);
     }
 
     //  接口说明：配电统计数据
     @GetMapping("device/statistics")
     @ResponseBody
-    private RetInfo deviceStatistics(@RequestParam(name = "id") Long id){
+    private RetInfo deviceStatistics(@RequestParam(name = "id") String id){
 
-        AssetAlarm alarm = assetAlarmService.selectAssetAlarmById(id);
-        return RetInfo.success(alarm);
+        AssetRack assetRack = assetRackService.selectAssetRackByRackNo(id);
+        return RetInfo.success(assetRack);
     }
 
     //  接口说明：服务器基础信息
     @GetMapping("device/serverBasic")
     @ResponseBody
-    private RetInfo deviceServerBasic(AssetServerInfo assetServerInfo){
-
-        List<AssetServerInfo> list = assetServerInfoService.selectAssetServerInfoList(assetServerInfo);
+    private RetInfo deviceServerBasic(@RequestParam("id") String rackId, @RequestParam("server_id") String serverId){
+        List<AssetServerInfo> list = assetServerInfoService.selectAssetServerInfo(rackId,serverId);
         return RetInfo.success(list);
+    }
+    //  接口说明：云图可视化
+    @GetMapping("cloud/heatmap")
+    @ResponseBody
+    private RetInfo heatmap(@RequestParam(name = "code") String code){
+
+        List<AssetHeatmap> assetHeatmaps = assetHeatmapService.selectAssetHeatmap(code);
+        return RetInfo.success(assetHeatmaps);
+    }
+    //  接口说明：容量可视化
+    @GetMapping("capacity")
+    @ResponseBody
+    private RetInfo capacity(AssetCapacity assetCapacity){
+
+        List<AssetCapacity> assetCapacities = assetCapacityService.selectAssetCapacityList(assetCapacity);
+        return RetInfo.success(assetCapacities);
     }
 
 }
